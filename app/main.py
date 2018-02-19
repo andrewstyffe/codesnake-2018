@@ -10,19 +10,20 @@ import random
 import sys
 
 from board_frame import BoardFrame
-from snake_util import closestFood, emptyMove, foodMove, findMove, idealMove, altMove
+from snake_util import closestFood, weightedConeMove, findMove, idealMove, altMove
 
 @bottle.route('/')
 def static():
-    return "the server is running"
+	return "the server is running"
 
 
 @bottle.route('/static/<path:path>')
 def static(path):
-    return bottle.static_file(path, root='static/')
+	return bottle.static_file(path, root='static/')
 
 
 @bottle.post("/start")
+@bottle.post("//start")
 def start():
 	data = bottle.request.json
 
@@ -52,11 +53,11 @@ def move():
 			dest = [board.width-1,board.height-1]
 
 	if board.ourSnake['health'] > 60:
-		move = emptyMove(board)
+		move = weightedConeMove(board, False)
 
 	elif board.ourSnake['health'] > 25:
 		#Go towards the closest food, otherwise go towards a corner of the board. 
-		move = foodMove(board)
+		move = weightedConeMove(board, True)
 	
 	else:
 		move = findMove(board, dest)
@@ -65,7 +66,7 @@ def move():
 	if not idealMove(board, move):
 		move = altMove(board, move, dest)
 
-	print ("move: " + move)
+#	print ("move: " + move)
 
 	# Catch errors and display in taunt to debug.
 	if move == "no_safe":
@@ -95,8 +96,13 @@ def end():
 application = bottle.default_app()
 
 if __name__ == '__main__':
-    bottle.run(
-        application,
-        host=os.getenv('IP', '0.0.0.0'),
-        port=os.getenv('PORT', sys.argv[1]),
-        debug = True)
+	if len(sys.argv) > 1:
+		port = sys.argv[1]
+	else:
+		port = 8080
+
+	bottle.run(
+		application,
+		host=os.getenv('IP', '0.0.0.0'),
+		port=os.getenv('PORT', port),
+		debug = True)

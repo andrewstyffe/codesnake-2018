@@ -48,9 +48,9 @@ def safe(board, move):
 	for snake in board.snakes:
 		coords = snake["coords"]
 		danger = danger + coords
-		print (snake)
+		#print (snake)
 	danger = danger + board.ourSnake['coords']
-	print (danger)
+	#print (danger)
 	
 	# Return false if the move is off the board, or would result in moving into a dangerous coordinate.	
 	if (dest in danger):
@@ -106,7 +106,7 @@ def altMove(board, attemptedMove, dest):
 	# Randomly order the moves we are going to try.
 	random.shuffle(possibility)
 	
-	# Add the randomly orderd moves to the piroity list to test their safety.
+	# Add the randomly orderd moves to the priority list to test their safety.
 	for direction in possibility:
 		if direction not in priority and direction != attemptedMove:
 			priority.append(direction)
@@ -119,7 +119,7 @@ def altMove(board, attemptedMove, dest):
 	# No ideal moves, so check if there are non-ideal safe moves.
 	priority.insert(0, attemptedMove)
 
-	print ("no_ideal")
+	#print ("no_ideal")
 
 	# Return the first safe move.
 	for direction in priority:
@@ -301,7 +301,8 @@ def isSurrounded(board, dest):
 
 	return True
 
-def foodMove(board):
+
+def weightedConeMove(board, considerFood):
 	danger = []
 	
 	for snake in board.snakes:
@@ -314,8 +315,7 @@ def foodMove(board):
 		for coord in cone[x]:
 				if coord in danger:
 					coneValLeft = coneValLeft + ( 100 / (float(x) ** 3) )
-				
-				elif coord not in board.foods:
+				elif not considerFood or (coord not in board.foods):
 					coneValLeft = coneValLeft - ( 100 / (float(x) ** 3) )
 				else:
 					coneValLeft = coneValLeft - ( 300 / (float(x) ** 3) )
@@ -326,7 +326,7 @@ def foodMove(board):
 		for coord in cone[x]:
 				if coord in danger:
 					coneValRight = coneValRight + ( 100 / (float(x) ** 3) )
-				elif coord not in board.foods:
+				elif not considerFood or (coord not in board.foods):
 					coneValRight = coneValRight - ( 100 / (float(x) ** 3) )
 				else: 
 					coneValRight = coneValRight - ( 300 / (float(x) ** 3) )
@@ -336,7 +336,7 @@ def foodMove(board):
 		for coord in cone[x]:
 				if coord in danger:
 					coneValDown = coneValDown + ( 100 / (float(x) ** 3) )
-				elif coord not in board.foods:
+				elif not considerFood or (coord not in board.foods):
 					coneValDown = coneValDown - ( 100 / (float(x) ** 3) )
 				else: 
 					coneValDown = coneValDown - ( 300 / (float(x) ** 3) )
@@ -347,7 +347,7 @@ def foodMove(board):
 		for coord in cone[x]:
 				if coord in danger:
 					coneValUp = coneValUp + ( 100 / (float(x) ** 3) )
-				elif coord not in board.foods:
+				elif not considerFood or (coord not in board.foods):
 					coneValUp = coneValUp - ( 100 / (float(x) ** 3) )
 				else:
 					coneValUp = coneValUp - ( 300 / (float(x) ** 3) )
@@ -363,58 +363,6 @@ def foodMove(board):
 		return "up"
 	elif bestMove == coneValDown:
 		return "down"
-
-def emptyMove(board):
-	danger = []
-	for snake in board.snakes:
-		for coords in snake["coords"]:
-			danger.append(coords)
-		
-	coneValLeft = 0
-	cone = scatter(board, "left")
-	for x in range (1, len(cone)):
-		for coord in cone[x]:
-				if coord in danger:
-					coneValLeft = coneValLeft + ( 100 / (float(x) ** 3) )
-				else:
-					coneValLeft = coneValLeft - ( 100 / (float(x) ** 3) )
-	coneValRight = 0
-	cone = scatter(board, "right")
-	for x in range (1, len(cone)):
-		for coord in cone[x]:
-				if coord in danger:
-					coneValRight = coneValRight + ( 100 / (float(x) ** 3) )
-				else:
-					coneValRight = coneValRight - ( 100 / (float(x) ** 3) )
-	coneValDown = 0
-	cone = scatter(board, "down")
-	for x in range (1, len(cone)):
-		for coord in cone[x]:
-				if coord in danger:
-					coneValDown = coneValDown + ( 100 / (float(x) ** 3) )
-				else:
-					coneValDown = coneValDown - ( 100 / (float(x) ** 3) )
-	coneValUp = 0
-	cone = scatter(board, "up")
-	for x in range (1, len(cone)):
-		for coord in cone[x]:
-				if coord in danger:
-					coneValUp = coneValUp + ( 100 / (float(x) ** 3) )
-				else:
-					coneValUp = coneValUp - ( 100 / (float(x) ** 3) )
-	
-	temp = [coneValLeft, coneValRight, coneValUp, coneValDown]
-	bestMove = min(temp)
-
-	if bestMove == coneValLeft:
-		return "left"
-	elif bestMove == coneValRight:
-		return "right"
-	elif bestMove == coneValUp:
-		return "up"
-	elif bestMove == coneValDown:
-		return "down"
-	
 
 # Simulate the game board after a move
 def sim(board, move):
