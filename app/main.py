@@ -4,10 +4,10 @@ Avoids head on collisions with other snakes and other risky moves.
 
 Author: Elio Ferri, Lee Zeitz
 '''
+import sys
 import bottle
 import os
 import random
-import sys
 
 from board_frame import BoardFrame
 from snake_util import closestFood, weightedConeMove, findMove, idealMove, altMove
@@ -105,4 +105,4 @@ if __name__ == '__main__':
 		application,
 		host=os.getenv('IP', '0.0.0.0'),
 		port=os.getenv('PORT', port),
-		debug = True)
+		server="gunicorn")
