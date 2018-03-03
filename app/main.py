@@ -74,12 +74,12 @@ def move():
 		whichMove = "backup"
 	
 
-	'''
+	
 	#Find altrenate safe move if the desired move was not ideal.
 	# TODO: maybe should be a while loop? Call alt move until it's actually ideal?
 	if not safe(board, move):
 		move = altMove(board, move, dest)
-	'''
+		whichMove = "alt"
 	#	print ("move: " + move)
 
 	# Catch errors and display in taunt to debug.

@@ -113,7 +113,7 @@ def altMove(board, attemptedMove, dest):
 
 	# Return the first ideal move, hopefully the first move in the priority list.
 	for direction in priority:
-		if idealMove(board, direction):
+		if safe(board, direction):
 			return direction
 
 	# No ideal moves, so check if there are non-ideal safe moves.
