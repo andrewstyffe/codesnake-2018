@@ -20,6 +20,7 @@ class BoardFrame:
 			if snake['health'] is not 0:
 				port_snake = {}
 				port_snake['coords'] = []
+				port_snake['id'] = snake['id']
 				for point in snake['body']['data']:
 					port_snake['coords'].append([point['x'], point['y']])
 				portedRequest['snakes'].append(port_snake)

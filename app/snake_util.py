@@ -35,7 +35,7 @@ def closestFood(board):
 # Parameters: Board - board_frame class instance
 #			  move  - Either a coordinate on the board, or a move direction,
 #					  one of "up", "down", "right, "left".
-def safe(board, move):
+def basic_safe(board, move):
 	
 	if isinstance(move, str):
 		dest = getDest(board,move)
@@ -64,13 +64,13 @@ def safe(board, move):
 # Parameters: Board - board_frame class instance
 #			  move  - Either a coordinate on the board, or a move direction,
 #					  one of "up", "down", "right, "left".
-def idealMove(board, move):
+def safe(board, move):
 	if isinstance(move, str):
 		dest = getDest(board,move)		
 	else:
 		dest = move
 
-	if not safe(board, dest):
+	if not basic_safe(board, dest):
 		return False
 	elif headOnCollision(board, dest):
 		return False
@@ -178,7 +178,7 @@ def findMove(board, dest):
 def headOnCollision(board, dest):
 
 	for snake in board.snakes:
-		if snake is board.ourSnake:
+		if snake['id'] == board.ourSnake['id']:
 			continue
 
 		head = snake["coords"][0]
