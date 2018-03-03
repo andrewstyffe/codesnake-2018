@@ -64,11 +64,14 @@ def move():
 
 		if (spaceMove[1][1] < board.ourSnake['length']):
 			move = spaceMove[0][0]
+			whichMove = "space"
 		else:
 			move = coneMove
+			whichMove = "cone"
 	
 	else:
 		move = findMove(board, dest)
+		whichMove = "backup"
 	
 
 
@@ -90,7 +93,7 @@ def move():
 	else:
 		return {
 			"move": move,
-			"taunt": ":0"
+			"taunt": whichMove
 		}
 
 
