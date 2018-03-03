@@ -52,7 +52,7 @@ def move():
 		else:
 			dest = [board.width-1,board.height-1]
 
-	if board.ourSnake['health'] > 60:
+	if board.ourSnake['health'] > 95:
 		move = weightedConeMove(board, False)
 
 	elif board.ourSnake['health'] > 25:

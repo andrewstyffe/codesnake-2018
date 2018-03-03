@@ -304,6 +304,7 @@ def isSurrounded(board, dest):
 
 def weightedConeMove(board, considerFood):
 	danger = []
+	health = board.ourSnake['health']
 	
 	for snake in board.snakes:
 		for coords in snake["coords"]:
@@ -318,7 +319,7 @@ def weightedConeMove(board, considerFood):
 				elif not considerFood or (coord not in board.foods):
 					coneValLeft = coneValLeft - ( 100 / (float(x) ** 3) )
 				else:
-					coneValLeft = coneValLeft - ( 300 / (float(x) ** 3) )
+					coneValLeft = coneValLeft - ( (100 - health/2)*10 / (float(x) ** 3) )
 
 	coneValRight = 0
 	cone = scatter(board, "right")
@@ -329,7 +330,7 @@ def weightedConeMove(board, considerFood):
 				elif not considerFood or (coord not in board.foods):
 					coneValRight = coneValRight - ( 100 / (float(x) ** 3) )
 				else: 
-					coneValRight = coneValRight - ( 300 / (float(x) ** 3) )
+					coneValRight = coneValRight - ( (100 - health/2)*10 / (float(x) ** 3) )
 	coneValDown = 0
 	cone = scatter(board, "down")
 	for x in range (1, len(cone)):
@@ -339,7 +340,7 @@ def weightedConeMove(board, considerFood):
 				elif not considerFood or (coord not in board.foods):
 					coneValDown = coneValDown - ( 100 / (float(x) ** 3) )
 				else: 
-					coneValDown = coneValDown - ( 300 / (float(x) ** 3) )
+					coneValDown = coneValDown - ( (100 - health/2)*10 / (float(x) ** 3) )
 				
 	coneValUp = 0
 	cone = scatter(board, "up")
@@ -350,7 +351,7 @@ def weightedConeMove(board, considerFood):
 				elif not considerFood or (coord not in board.foods):
 					coneValUp = coneValUp - ( 100 / (float(x) ** 3) )
 				else:
-					coneValUp = coneValUp - ( 300 / (float(x) ** 3) )
+					coneValUp = coneValUp - ( (100 - health/2)*10 / (float(x) ** 3) )
 	
 	temp = [coneValLeft, coneValRight, coneValUp, coneValDown]
 	bestMove = min(temp)
