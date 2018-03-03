@@ -304,6 +304,7 @@ def isSurrounded(board, dest):
 
 def weightedConeMove(board, considerFood):
 	danger = []
+	corners = [[0,0], [board.width - 1, 0], [0, board.height - 1], [board.height - 1, board.width - 1]]
 	health = board.ourSnake['health']
 	
 	for snake in board.snakes:
@@ -314,44 +315,52 @@ def weightedConeMove(board, considerFood):
 	cone = scatter(board, "left")
 	for x in range (1, len(cone)):
 		for coord in cone[x]:
-				if coord in danger:
+				if (coord in corners):
+					coneValLeft = coneValLeft + (100 / float(x))
+				elif coord in danger:
 					coneValLeft = coneValLeft + ( 100 / (float(x) ** 3) )
 				elif not considerFood or (coord not in board.foods):
 					coneValLeft = coneValLeft - ( 100 / (float(x) ** 3) )
 				else:
-					coneValLeft = coneValLeft - ( (100 - health/2)*10 / (float(x) ** 3) )
+					coneValLeft = coneValLeft - ( (100 - float(health/1.2))*10 / (float(x) ** 3) )
 
 	coneValRight = 0
 	cone = scatter(board, "right")
 	for x in range (1, len(cone)):
 		for coord in cone[x]:
-				if coord in danger:
+				if (coord in corners):
+					coneValRight = coneValRight + (100 / float(x))
+				elif coord in danger:
 					coneValRight = coneValRight + ( 100 / (float(x) ** 3) )
 				elif not considerFood or (coord not in board.foods):
 					coneValRight = coneValRight - ( 100 / (float(x) ** 3) )
 				else: 
-					coneValRight = coneValRight - ( (100 - health/2)*10 / (float(x) ** 3) )
+					coneValRight = coneValRight - ( (100 - float(health/1.2))*10 / (float(x) ** 3) )
 	coneValDown = 0
 	cone = scatter(board, "down")
 	for x in range (1, len(cone)):
 		for coord in cone[x]:
-				if coord in danger:
+				if (coord in corners):
+					coneValDown = coneValDown + (100 / float(x))
+				elif coord in danger:
 					coneValDown = coneValDown + ( 100 / (float(x) ** 3) )
 				elif not considerFood or (coord not in board.foods):
 					coneValDown = coneValDown - ( 100 / (float(x) ** 3) )
 				else: 
-					coneValDown = coneValDown - ( (100 - health/2)*10 / (float(x) ** 3) )
+					coneValDown = coneValDown - ( (100 - float(health/1.2))*10 / (float(x) ** 3) )
 				
 	coneValUp = 0
 	cone = scatter(board, "up")
 	for x in range (1, len(cone)):
 		for coord in cone[x]:
-				if coord in danger:
+				if (coord in corners):
+					coneValUp = coneValUp + (100 / float(x))
+				elif coord in danger:
 					coneValUp = coneValUp + ( 100 / (float(x) ** 3) )
 				elif not considerFood or (coord not in board.foods):
 					coneValUp = coneValUp - ( 100 / (float(x) ** 3) )
 				else:
-					coneValUp = coneValUp - ( (100 - health/2)*10 / (float(x) ** 3) )
+					coneValUp = coneValUp - ( (100 - float(health/1.2))*10 / (float(x) ** 3) )
 	
 	temp = [coneValLeft, coneValRight, coneValUp, coneValDown]
 	bestMove = min(temp)
