@@ -53,45 +53,6 @@ class BoardFrame:
 		for snake in snakes:
 			if snake["id"] == self.us:
 				return snake
-'''
-	def portAPI(request):
-		portedRequest = {}
-		portedRequest['food'] = []
-		portedRequest['snakes'] = []
-
-		for food in request['food']:
-			portedRequest['food'].append([food['x'], food['y']])
-
-		for snake in request['snakes']:
-			port_snake = {}
-			port_snake['coords'] = []
-			for point in snake['body']:
-				port_snake['coords'].append([point['x'], point['y']])
-
-		ourSnake = {}
-		ourSnake['coords'] = []
-		for point in request['you']:
-			ourSnake['coords'].append([point['x'], point['y']])
-
-		portedRequest['turn'] = request['turn']
-		portedRequest['height'] = request['height']
-		portedRequest['width'] = request['width']
-		
-
-		return portedRequest
-
-'''
-'''
-	def __init__(self, data):
-		self.turn = data['turn']
-		self.height = data['height']
-		self.width = data['width']
-		self.snakes = data['snakes']
-		self.foods = data['food']['data']
-		self.ourSnake = data['you']['data']
-		self.ourLoc = self.ourSnake[0]
-'''
-
 
 
 
