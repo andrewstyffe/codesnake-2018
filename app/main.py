@@ -29,8 +29,8 @@ def start():
 
 	return {
 		"color": "#C42B3A",
-		"name": "codesnek",
-		"head_url": "https://s-media-cache-ak0.pinimg.com/736x/f5/ed/5e/f5ed5e6aa79d4919dde9a6253751e039.jpg",
+		"name": "a-reptile-dysfunction",
+		"head_url": "https://cdn.drawception.com/images/panels/2017/5-5/3chCZKwTMr-2.png",
 		"taunt": "ohNO",
 		"head_type": "tongue",
 		"tail_type": "fat-rattle"
