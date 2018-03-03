@@ -505,17 +505,22 @@ def avoidSmallSpace(board):
 			temp.append(["down", areaDown])
 	
 
-	max = temp[0]
-	min = temp[0]
-
+	mMax = temp[0]
+	mMin = temp[0]
+	print("+++")
 	for move in temp:
-		if move[1] > max[1]:
-			move = max
+		print(move)
+		if move[1] > mMax[1]:
+			mMax = move
 		
-		if move[1] < min[1]:
-			move = min
+		if move[1] < mMin[1]:
+			mMin = move
 
-	return [max, min]
+	print("---")
+	print(mMax)
+	print(mMin)
+	print("xxx")
+	return [mMax, mMin]
 
 def findPointOutsideThresh(board, thresh, move):
 	if move == "left":
