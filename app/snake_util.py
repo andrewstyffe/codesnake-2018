@@ -441,3 +441,145 @@ def isDead(snake, board):
 				# Snake died by running into another snake
 				return True
 		return False
+
+def avoidSmallSpace(board):
+	ourCoord = board.ourLoc
+	moves = [ ["left" ,[ourCoord[0] - 1, ourCoord[1]]], 
+			  ["right" ,[ourCoord[0] + 1, ourCoord[1]]],
+			  ["up" ,[ourCoord[0], ourCoord[1] - 1]],
+			  ["down" ,[ourCoord[0], ourCoord[1] + 1]]]
+			
+	for move in moves:
+		if not safe(board, move[1]):
+			moves.remove(move)
+
+	temp = []
+
+	for move in moves:
+		if move[0] == "left":
+			thresh = build_thresh(board, "vertical", move[1]) 
+			inArea = findPointOutsideThresh(board, thresh, move[0])
+			if inArea:
+				area = [inArea]
+				recCalcArea(board,thresh,area,inArea)
+				areaLeft = len(area) + len(thresh)
+			else:
+				areaLeft = len(thresh)
+			
+			temp.append(["left", areaLeft])
+
+		elif move[0] == "right":
+			thresh = build_thresh(board, "vertical", move[1]) 
+			inArea = findPointOutsideThresh(board, thresh, move[0])
+			if inArea:
+				area = [inArea]
+				recCalcArea(board,thresh,area,inArea)
+				areaRight = len(area) + len(thresh)
+			else:
+				areaRight = len(thresh)
+
+			temp.append(["right", areaRight])
+
+		elif move[0] == "up":
+			thresh = build_thresh(board, "horizontal", move[1])
+			inArea = findPointOutsideThresh(board, thresh, move[0])
+			if inArea:
+				area = [inArea]
+				recCalcArea(board,thresh,area,inArea)
+				areaUp = len(area) + len(thresh)
+			else:
+				areaUp = len(thresh)
+
+			temp.append(["up", areaUp])
+
+		elif move[0] == "down":
+			thresh = build_thresh(board, "horizontal", move[1])
+			inArea = findPointOutsideThresh(board, thresh, move[0])
+			if inArea:
+				area = [inArea]
+				recCalcArea(board,thresh,area,inArea)
+				areaDown = len(area) + len(thresh)
+			else:
+				areaDown = len(thresh)
+
+			temp.append(["down", areaDown])
+	
+
+	max = temp[0]
+	min = temp[0]
+
+	for move in temp:
+		if move[1] > max[1]:
+			move = max
+		
+		if move[1] < min[1]:
+			move = min
+
+	return [max, min]
+
+def findPointOutsideThresh(board, thresh, move):
+	if move == "left":
+		for move in thresh:
+			if safe(board, [move[0]-1, move[1]]):
+				return [move[0], move[1]-1]
+	elif move == "right":
+		for move in thresh:
+			if safe(board, [move[0]+1, move[1]]):
+				return [move[0], move[1]-1]
+	elif move == "up":
+		for move in thresh:
+			if safe(board, [move[0], move[1]-1]):
+				return [move[0], move[1]-1]
+	elif move == "down":
+		for move in thresh:
+			if safe(board, [move[0], move[1]+1]):
+				return [move[0], move[1]-1]
+	else:
+		return false
+
+
+def recCalcArea(board, thresh, area, move):
+	moves = [[move[0] - 1, move[1]], 
+			 [move[0] + 1, move[1]],
+			 [move[0], move[1] - 1],
+			 [move[0], move[1] + 1]]
+
+	for newMove in moves:
+		if safe(board, newMove) and (newMove not in area) and (newMove not in thresh):
+			area.append(newMove)
+			recCalcArea(board, thresh, area, newMove)  
+	
+
+def build_thresh(board, dir, move):
+	thresh = []
+
+	x = move[0]
+	y = move[1] 
+
+	thresh.append([x,y])
+
+	if (dir == "horizontal"):
+		l = move[0] - 1
+		r = move[0] + 1
+		while (safe(board, [l,y]) or safe(board, [r,y])):
+			if safe(board, [l,y]):
+				thresh.append([l,y])
+				l = l - 1
+
+			if safe(board, [r,y]):
+				thresh.append([r,y])
+				r = r + 1
+	
+	elif (dir == "vertical"):
+		u = move[0] - 1
+		d = move[0] + 1
+		while (safe(board, [x,u]) or safe(board, [x,d])):
+			if safe(board, [x,u]):
+				thresh.append([x,u])
+				u = u - 1
+
+			if safe(board, [x,d]):
+				thresh.append([x,d])
+				d = d + 1
+
+	return thresh

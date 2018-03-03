@@ -10,7 +10,7 @@ import os
 import random
 
 from board_frame import BoardFrame
-from snake_util import closestFood, weightedConeMove, findMove, idealMove, altMove
+from snake_util import closestFood, weightedConeMove, findMove, idealMove, altMove, avoidSmallSpace
 
 @bottle.route('/')
 def static():
@@ -52,16 +52,26 @@ def move():
 		else:
 			dest = [board.width-1,board.height-1]
 
-	if board.ourSnake['health'] > 70:
-		move = weightedConeMove(board, False)
+	if (board.ourSnake['health'] > 25):
+		if board.ourSnake['health'] > 70:
+			coneMove = weightedConeMove(board, False)
+		
+		else:
+			#Go towards the closest food, otherwise go towards a corner of the board. 
+			coneMove = weightedConeMove(board, True)
+		
+		spaceMove = avoidSmallSpace(board)
 
-	elif board.ourSnake['health'] > 25:
-		#Go towards the closest food, otherwise go towards a corner of the board. 
-		move = weightedConeMove(board, True)
+		if (spaceMove[1][1] < board.ourSnake['length']):
+			move = spaceMove[0][0]
+		else:
+			move = coneMove
 	
 	else:
 		move = findMove(board, dest)
 	
+
+
 	#Find altrenate safe move if the desired move was not ideal.
 	# TODO: maybe should be a while loop? Call alt move until it's actually ideal?
 	if not idealMove(board, move):
