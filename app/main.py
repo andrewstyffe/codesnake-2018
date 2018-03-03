@@ -63,6 +63,7 @@ def move():
 		move = findMove(board, dest)
 	
 	#Find altrenate safe move if the desired move was not ideal.
+	# TODO: maybe should be a while loop? Call alt move until it's actually ideal?
 	if not idealMove(board, move):
 		move = altMove(board, move, dest)
 

@@ -17,11 +17,12 @@ class BoardFrame:
 			portedRequest['food'].append(food_coord)
 
 		for snake in request['snakes']['data']:
-			port_snake = {}
-			port_snake['coords'] = []
-			for point in snake['body']['data']:
-				port_snake['coords'].append([point['x'], point['y']])
-			portedRequest['snakes'].append(port_snake)
+			if snake['health'] is not 0:
+				port_snake = {}
+				port_snake['coords'] = []
+				for point in snake['body']['data']:
+					port_snake['coords'].append([point['x'], point['y']])
+				portedRequest['snakes'].append(port_snake)
 		us = request['you']
 		ourSnake = {}
 		ourSnake['coords'] = []
