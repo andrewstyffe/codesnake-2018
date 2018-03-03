@@ -454,7 +454,7 @@ def avoidSmallSpace(board):
 			moves.remove(move)
 
 	temp = []
-
+	print(moves)
 	for move in moves:
 		if move[0] == "left":
 			thresh = build_thresh(board, "vertical", move[1]) 
@@ -576,8 +576,8 @@ def build_thresh(board, dir, move):
 				r = r + 1
 	
 	elif (dir == "vertical"):
-		u = move[0] - 1
-		d = move[0] + 1
+		u = move[1] - 1
+		d = move[1] + 1
 		while (safe(board, [x,u]) or safe(board, [x,d])):
 			if safe(board, [x,u]):
 				thresh.append([x,u])
