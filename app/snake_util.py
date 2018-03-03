@@ -521,11 +521,11 @@ def findPointOutsideThresh(board, thresh, move):
 	if move == "left":
 		for move in thresh:
 			if safe(board, [move[0]-1, move[1]]):
-				return [move[0], move[1]-1]
+				return [move[0]-1, move[1]]
 	elif move == "right":
 		for move in thresh:
 			if safe(board, [move[0]+1, move[1]]):
-				return [move[0], move[1]-1]
+				return [move[0]+1, move[1]]
 	elif move == "up":
 		for move in thresh:
 			if safe(board, [move[0], move[1]-1]):
@@ -533,7 +533,7 @@ def findPointOutsideThresh(board, thresh, move):
 	elif move == "down":
 		for move in thresh:
 			if safe(board, [move[0], move[1]+1]):
-				return [move[0], move[1]-1]
+				return [move[0], move[1]+1]
 	else:
 		return false
 
