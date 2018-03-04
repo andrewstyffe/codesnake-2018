@@ -81,6 +81,7 @@ def move():
 		move = altMove(board, move, dest)
 		whichMove = "alt"
 		print("alt")
+	
 	#	print ("move: " + move)
 
 	# Catch errors and display in taunt to debug.
