@@ -450,23 +450,21 @@ def avoidSmallSpace(board):
 			  ["up"   ,[ourCoord[0], ourCoord[1] - 1]],
 			  ["down" ,[ourCoord[0], ourCoord[1] + 1]]]
 
-	print("start")
-	print(moves)
 	i = 0		
+	
 	while i < len(moves):
-		print("here")
-		print("the tried move is")
-		print(moves[i])
+
 		if not safe(board, moves[i][1]):
-			print("move is not safe")
-			print(moves[i])
+			
 			del moves[i]
 			i = i - 1
 		i = i + 1
 
-	print("done")
+	if len(moves) == 0:
+		return [["down", 1], ["up", 1]]
+
 	temp = []
-	print(moves)
+	
 	for move in moves:
 		if move[0] == "left":
 			thresh = build_thresh(board, "vertical", move[1]) 
@@ -519,19 +517,15 @@ def avoidSmallSpace(board):
 
 	mMax = temp[0]
 	mMin = temp[0]
-	#print("+++")
+	
 	for move in temp:
-		print(move)
 		if move[1] > mMax[1]:
 			mMax = move
 		
 		if move[1] < mMin[1]:
 			mMin = move
 
-	#print("---")
-	#print(mMax)
-	#print(mMin)
-	#print("xxx")
+	
 	return [mMax, mMin]
 
 def findPointOutsideThresh(board, thresh, move):

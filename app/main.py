@@ -53,7 +53,7 @@ def move():
 			dest = [board.width-1,board.height-1]
 
 	if (board.ourSnake['health'] > 25):
-		if board.ourSnake['health'] > 70:
+		if board.ourSnake['health'] > 60:
 			coneMove = weightedConeMove(board, False)
 		
 		else:
@@ -62,10 +62,11 @@ def move():
 		
 		spaceMove = avoidSmallSpace(board)
 
-		if (spaceMove[1][1] < board.ourSnake['length']):
+		if (spaceMove[1][1] < board.ourSnake['length'] or not safe(board,coneMove)):
 			move = spaceMove[0][0]
 			whichMove = "space"
 		else:
+			
 			move = coneMove
 			whichMove = "cone"
 	
