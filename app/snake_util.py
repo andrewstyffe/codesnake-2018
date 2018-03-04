@@ -49,7 +49,8 @@ def basic_safe(board, move):
 		coords = snake["coords"]
 		danger = danger + coords
 		#print (snake)
-	danger = danger + board.ourSnake['coords']
+		#print(coords[0])
+	#danger = danger + board.ourSnake['coords']
 	#print (danger)
 	
 	# Return false if the move is off the board, or would result in moving into a dangerous coordinate.	
@@ -445,14 +446,25 @@ def isDead(snake, board):
 def avoidSmallSpace(board):
 	ourCoord = board.ourLoc
 	moves = [ ["left" ,[ourCoord[0] - 1, ourCoord[1]]], 
-			  ["right" ,[ourCoord[0] + 1, ourCoord[1]]],
-			  ["up" ,[ourCoord[0], ourCoord[1] - 1]],
+			  ["right",[ourCoord[0] + 1, ourCoord[1]]],
+			  ["up"   ,[ourCoord[0], ourCoord[1] - 1]],
 			  ["down" ,[ourCoord[0], ourCoord[1] + 1]]]
-			
-	for move in moves:
-		if not safe(board, move[1]):
-			moves.remove(move)
 
+	print("start")
+	print(moves)
+	i = 0		
+	while i < len(moves):
+		print("here")
+		print("the tried move is")
+		print(moves[i])
+		if not safe(board, moves[i][1]):
+			print("move is not safe")
+			print(moves[i])
+			del moves[i]
+			i = i - 1
+		i = i + 1
+
+	print("done")
 	temp = []
 	print(moves)
 	for move in moves:
@@ -507,7 +519,7 @@ def avoidSmallSpace(board):
 
 	mMax = temp[0]
 	mMin = temp[0]
-	print("+++")
+	#print("+++")
 	for move in temp:
 		print(move)
 		if move[1] > mMax[1]:
@@ -516,10 +528,10 @@ def avoidSmallSpace(board):
 		if move[1] < mMin[1]:
 			mMin = move
 
-	print("---")
-	print(mMax)
-	print(mMin)
-	print("xxx")
+	#print("---")
+	#print(mMax)
+	#print(mMin)
+	#print("xxx")
 	return [mMax, mMin]
 
 def findPointOutsideThresh(board, thresh, move):
