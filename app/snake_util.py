@@ -320,8 +320,10 @@ def weightedConeMove(board, considerFood):
 					coneValLeft = coneValLeft + (100 / float(x))
 				elif coord in danger:
 					coneValLeft = coneValLeft + ( 100 / (float(x) ** 3) )
-				elif not considerFood or (coord not in board.foods):
+				elif coord not in board.foods:
 					coneValLeft = coneValLeft - ( 100 / (float(x) ** 3) )
+				elif not considerFood and (coord in board.foods):
+					coneValLeft = coneValLeft + ( 100 / (float(x) ** 3) )
 				else:
 					coneValLeft = coneValLeft - ( (100 - float(health/1.2))*10 / (float(x) ** 3) )
 
@@ -333,8 +335,10 @@ def weightedConeMove(board, considerFood):
 					coneValRight = coneValRight + (100 / float(x))
 				elif coord in danger:
 					coneValRight = coneValRight + ( 100 / (float(x) ** 3) )
-				elif not considerFood or (coord not in board.foods):
+				elif coord not in board.foods:
 					coneValRight = coneValRight - ( 100 / (float(x) ** 3) )
+				elif not considerFood and (coord in board.foods):
+					coneValRight = coneValRight + ( 100 / (float(x) ** 3) )
 				else: 
 					coneValRight = coneValRight - ( (100 - float(health/1.2))*10 / (float(x) ** 3) )
 	coneValDown = 0
@@ -345,8 +349,10 @@ def weightedConeMove(board, considerFood):
 					coneValDown = coneValDown + (100 / float(x))
 				elif coord in danger:
 					coneValDown = coneValDown + ( 100 / (float(x) ** 3) )
-				elif not considerFood or (coord not in board.foods):
+				elif coord not in board.foods:
 					coneValDown = coneValDown - ( 100 / (float(x) ** 3) )
+				elif not considerFood and (coord in board.foods):
+					coneValDown = coneValDown + ( 100 / (float(x) ** 3) )
 				else: 
 					coneValDown = coneValDown - ( (100 - float(health/1.2))*10 / (float(x) ** 3) )
 				
@@ -358,8 +364,10 @@ def weightedConeMove(board, considerFood):
 					coneValUp = coneValUp + (100 / float(x))
 				elif coord in danger:
 					coneValUp = coneValUp + ( 100 / (float(x) ** 3) )
-				elif not considerFood or (coord not in board.foods):
+				elif coord not in board.foods:
 					coneValUp = coneValUp - ( 100 / (float(x) ** 3) )
+				elif not considerFood and (coord in board.foods):
+					coneValUp = coneValUp + ( 100 / (float(x) ** 3) )
 				else:
 					coneValUp = coneValUp - ( (100 - float(health/1.2))*10 / (float(x) ** 3) )
 	
