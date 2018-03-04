@@ -47,7 +47,7 @@ def basic_safe(board, move):
 	# Find all the dangerous coordinates.
 	for snake in board.snakes:
 		coords = snake["coords"]
-		if len(coords) > 1:
+		if len(coords) > 3:
 			del coords[-1]
 		
 		danger = danger + coords
