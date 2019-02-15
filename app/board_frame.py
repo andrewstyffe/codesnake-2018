@@ -11,34 +11,34 @@ class BoardFrame:
 		portedRequest['snakes'] = []
 		request = data
 
-		for food in request['food']['data']:
+		for food in request['board']['food']:
 			food_coord = [food['x'], food['y']]
 
 			portedRequest['food'].append(food_coord)
 
-		for snake in request['snakes']['data']:
-			if snake['health'] is not 0:
-				port_snake = {}
-				port_snake['coords'] = []
-				port_snake['id'] = snake['id']
-				for point in snake['body']['data']:
-					port_snake['coords'].append([point['x'], point['y']])
-				portedRequest['snakes'].append(port_snake)
+		for snake in request['board']['snakes']:
+			port_snake = {}
+			port_snake['coords'] = []
+			port_snake['id'] = snake['id']
+			for point in snake['body']:
+				port_snake['coords'].append([point['x'], point['y']])
+			portedRequest['snakes'].append(port_snake)
+
 		us = request['you']
 		ourSnake = {}
 		ourSnake['coords'] = []
-		for point in us['body']['data']:
+		for point in us['body']:
 			ourSnake['coords'].append([point['x'], point['y']])
 
 		ourSnake['name'] = us['name']
-		ourSnake['taunt'] = us['taunt']
-		ourSnake['length'] = us['length']
+		#ourSnake['taunt'] = us['taunt']
+		ourSnake['length'] = len(us['body'])
 		ourSnake['health'] = us['health']
 		ourSnake['id'] = us['id']
 
 		portedRequest['turn'] = request['turn']
-		portedRequest['height'] = request['height']
-		portedRequest['width'] = request['width']
+		portedRequest['height'] = request['board']['height']
+		portedRequest['width'] = request['board']['width']
 
 		data = portedRequest
 
