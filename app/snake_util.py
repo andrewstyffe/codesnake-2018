@@ -454,6 +454,8 @@ def isDead(snake, board):
 
 def avoidSmallSpace(board):
 	ourCoord = board.ourLoc
+
+	# Get a list of all the moves we can make
 	moves = [ ["left" ,[ourCoord[0] - 1, ourCoord[1]]], 
 			  ["right",[ourCoord[0] + 1, ourCoord[1]]],
 			  ["up"   ,[ourCoord[0], ourCoord[1] - 1]],
@@ -461,14 +463,14 @@ def avoidSmallSpace(board):
 
 	i = 0		
 	
+	# Delete all the moves we can already tell aren't safe
 	while i < len(moves):
-
 		if not safe(board, moves[i][1]):
-			
 			del moves[i]
 			i = i - 1
 		i = i + 1
 
+	# If they're all bad, just return something
 	if len(moves) == 0:
 		return [["down", 1], ["up", 1]]
 
@@ -476,12 +478,18 @@ def avoidSmallSpace(board):
 	
 	for move in moves:
 		if move[0] == "left":
-			thresh = build_thresh(board, "vertical", move[1]) 
+			# Get list of all available vertical moves
+			thresh = build_thresh(board, "vertical", move[1])
+			# Get a safe move to make if we follow thresh
 			inArea = findPointOutsideThresh(board, thresh, move[0])
+
+			# If there's a move off the thresh we can take, go recursively calculate the aread of the hole
 			if inArea:
 				area = [inArea]
 				recCalcArea(board,thresh,area,inArea)
 				areaLeft = len(area) + len(thresh)
+
+			# If there's no moves to make off thresh, then all the area left is just the thresh
 			else:
 				areaLeft = len(thresh)
 			
@@ -537,6 +545,7 @@ def avoidSmallSpace(board):
 	
 	return [mMax, mMin]
 
+# Returns a safe move off the thresh (which is just a straight line in one direction), or False if none exist
 def findPointOutsideThresh(board, thresh, move):
 	if move == "left":
 		for move in thresh:
@@ -555,7 +564,7 @@ def findPointOutsideThresh(board, thresh, move):
 			if safe(board, [move[0], move[1]+1]):
 				return [move[0], move[1]+1]
 	else:
-		return false
+		return False
 
 
 def recCalcArea(board, thresh, area, move):
@@ -578,6 +587,7 @@ def build_thresh(board, dir, move):
 
 	thresh.append([x,y])
 
+	# Move in the direction of the given move (horizontal or vertical) until no more moves in that axis are available, appending them all to a list
 	if (dir == "horizontal"):
 		l = move[0] - 1
 		r = move[0] + 1
