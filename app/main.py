@@ -57,26 +57,24 @@ def move():
 			coneMove = weightedConeMove(board, False)
 		
 		else:
-			#Go towards the closest food, otherwise go towards a corner of the board. 
+			# Go towards the closest food, otherwise go towards a corner of the board. 
 			coneMove = weightedConeMove(board, True)
 		
 		spaceMove = avoidSmallSpace(board)
 
+		# Check if we are putting ourselves in a hole with less moves than our length, and that coneMove is safe
 		if (spaceMove[1][1] < board.ourSnake['length'] or not safe(board,coneMove)):
 			move = spaceMove[0][0]
 			whichMove = "space"
 		else:
-			
 			move = coneMove
 			whichMove = "cone"
-	
+
 	else:
 		move = findMove(board, dest)
 		whichMove = "backup"
-	
-
-	
-	#Find altrenate safe move if the desired move was not ideal.
+		
+	# Find altrenate safe move if the desired move was not ideal.
 	# TODO: maybe should be a while loop? Call alt move until it's actually ideal?
 	if not safe(board, move):
 		move = altMove(board, move, dest)
