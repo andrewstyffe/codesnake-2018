@@ -294,16 +294,6 @@ def shortestPath(src, dest):
 	distY = dest[1] - src[1]
 
 
-# Returns true if a destination square is fully surrounded, with less squares than the length of our snek. False otherwise.
-# Parameters: board 		- current board object
-# 			  dest 			- destination square (pair of coordinates)
-#
-def isSurrounded(board, dest):
-	ourLength = len(board['ourSnake']['coords'])
-
-	return True
-
-
 def weightedConeMove(board, considerFood):
 	danger = []
 	corners = [[0,0], [board.width - 1, 0], [0, board.height - 1], [board.height - 1, board.width - 1]]
