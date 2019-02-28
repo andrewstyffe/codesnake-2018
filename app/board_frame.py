@@ -2,7 +2,6 @@
 The BoardFrame class stores the data from the board at each move request
 '''
 
-
 class BoardFrame:
 
 	def __init__(self, data):

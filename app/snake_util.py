@@ -384,42 +384,6 @@ def weightedConeMove(board, considerFood):
 	elif bestMove == coneValDown:
 		return "down"
 
-# Simulate the game board after a move
-def sim(board, move):
-	newBoard = copy.deepcopy(board)
-	newBoard.turn += 1
-	newBoard['ourSnake'] = updateSnake(newBoard['ourSnake'], move)
-	return newBoard
-
-
-# Returns given snake's object with state updated according to given move
-# Parameters: snake 		- snake object to make move
-#			  move 			- move (string) the snake is to make
-#
-def updateSnake(snake, move):
-	coords = snake['coords']
-
-	for x in range(len(coords) - 1, 0, -1):
-		coords[x] = coords[x - 1]
-
-	if move == left:
-		coords[0][0] = coords[1][0] - 1
-		coords[0][1] = coords[1][1] 
-
-	elif move == right:
-		coords[0][0] = coords[1][0] + 1
-		coords[0][1] = coords[1][1]
-
-	elif move == up:
-		coords[0][0] = coords[1][0]
-		coords[0][1] = coords[1][1] - 1
-
-	elif move == down:
-		coords[0][0] = coords[1][0]
-		coords[0][1] = coords[1][1] + 1
-
-	return snake
-
 
 # Returns true if a snake is dead, false if a snake is alive
 # Parameters: snake 	- a snake object
@@ -451,6 +415,7 @@ def isDead(snake, board):
 				# Snake died by running into another snake
 				return True
 		return False
+
 
 def avoidSmallSpace(board):
 	ourCoord = board.ourLoc
@@ -530,7 +495,6 @@ def avoidSmallSpace(board):
 				areaDown = len(thresh)
 
 			temp.append(["down", areaDown])
-	
 
 	mMax = temp[0]
 	mMin = temp[0]
@@ -541,9 +505,9 @@ def avoidSmallSpace(board):
 		
 		if move[1] < mMin[1]:
 			mMin = move
-
 	
 	return [mMax, mMin]
+
 
 # Returns a safe move off the thresh (which is just a straight line in one direction), or False if none exist
 def findPointOutsideThresh(board, thresh, move):
