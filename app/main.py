@@ -109,6 +109,7 @@ def end():
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
+bottle.run(server='gae')
 
 if __name__ == '__main__':
 	if len(sys.argv) > 1:
