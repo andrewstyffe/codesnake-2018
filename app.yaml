@@ -1,1 +1,3 @@
 runtime: python37
+entrypoint: gunicorn -b :$PORT app.main:application --worker-class gevent --pythonpath './app'
+
