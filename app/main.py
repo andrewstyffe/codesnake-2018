@@ -12,6 +12,7 @@ import random
 from board_frame import BoardFrame
 from snake_util import closestFood, weightedConeMove, findMove, safe, altMove, avoidSmallSpace
 
+
 @bottle.route('/')
 def static():
 	return "the server is running"
@@ -30,8 +31,8 @@ def start():
 	return {
 		"color": "#C42B3A",
 		"name": "codesnake",
-		"head_type": "sand-worm",
-		"tail_type": "fat-rattle"
+		"headType": "sand-worm",
+		"tailType": "fat-rattle"
 	}
 
 
@@ -79,20 +80,18 @@ def move():
 		whichMove = "alt"
 		print("alt")
 	
-	#	print ("move: " + move)
+	print("Turn: " + str(board.turn) + " move: " + whichMove)
 
 	# Catch errors and display in taunt to debug.
 	if move == "no_safe":
 		print ("ERROR!")
 		return{
 			"move": "up",
-			"taunt": "ERROR!"
 		}
 
 	else:
 		return {
 			"move": move,
-			"taunt": whichMove
 		}
 
 
@@ -101,7 +100,7 @@ def end():
 	data = bottle.request.json
 
 	return {
-		"taunt": "dang"
+		"message": "dang"
 	}
 
 @bottle.post("/ping")

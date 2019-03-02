@@ -19,14 +19,14 @@ class BoardFrame:
 			port_snake = {}
 			port_snake['coords'] = []
 			port_snake['id'] = snake['id']
-			for point in snake['body']:
+			for point in snake['body'][:-1]:
 				port_snake['coords'].append([point['x'], point['y']])
 			portedRequest['snakes'].append(port_snake)
 
 		us = request['you']
 		ourSnake = {}
 		ourSnake['coords'] = []
-		for point in us['body']:
+		for point in us['body'][:-1]:
 			ourSnake['coords'].append([point['x'], point['y']])
 
 		ourSnake['name'] = us['name']
