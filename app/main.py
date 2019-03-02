@@ -29,10 +29,8 @@ def start():
 
 	return {
 		"color": "#C42B3A",
-		"name": "a-reptile-dysfunction",
-		"head_url": "https://cdn.drawception.com/images/panels/2017/5-5/3chCZKwTMr-2.png",
-		"taunt": "ohNO",
-		"head_type": "tongue",
+		"name": "codesnake",
+		"head_type": "sand-worm",
 		"tail_type": "fat-rattle"
 	}
 
@@ -109,7 +107,7 @@ def end():
 @bottle.post("/ping")
 def ping():
 	data = bottle.request.json
-	
+
 	return {
 		"message": "still alive"
 	}
