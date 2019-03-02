@@ -121,11 +121,14 @@ def altMove(board, attemptedMove, dest):
 	# No ideal moves, so check if there are non-ideal safe moves.
 	priority.insert(0, attemptedMove)
 
-	#print ("no_ideal")
-
 	# Return the first safe move.
 	for direction in priority:
 		if safe(board, direction):
+			return direction
+
+	# If we get here, there are no safe moves. Check if there's at least a potential head-on-head collision we can take
+	for direction in priority:
+		if headOnCollision(getDest(direction)):
 			return direction
 
 	return "no_safe"
@@ -405,6 +408,16 @@ def isDead(snake, board):
 				# Snake died by running into another snake
 				return True
 		return False
+
+# Returns a list of the adjacent moves with their directions
+# Paremeters:
+# 	coord 
+def getAdjacent(coord):
+	return [["left" ,[coord[0] - 1, coord[1]]], 
+			["right",[coord[0] + 1, coord[1]]],
+			["up"   ,[coord[0], coord[1] - 1]],
+			["down" ,[coord[0], coord[1] + 1]]]
+
 
 
 def avoidSmallSpace(board):
