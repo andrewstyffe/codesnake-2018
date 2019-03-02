@@ -106,6 +106,13 @@ def end():
 		"taunt": "dang"
 	}
 
+@bottle.post("/ping")
+def ping():
+	data = bottle.request.json
+	
+	return {
+		"message": "still alive"
+	}
 
 # Expose WSGI app (so gunicorn can find it)
 application = bottle.default_app()
