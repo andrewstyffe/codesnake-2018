@@ -47,8 +47,11 @@ class BoardFrame:
 		self.snakes = data["snakes"]
 		self.foods = data["food"]
 		self.ourSnake = ourSnake
-		self.ourLoc = self.ourSnake["coords"][0]
-
+		if len(self.ourSnake["coords"]) != 0:
+			self.ourLoc = self.ourSnake["coords"][0]
+		else:
+			self.ourLoc = None
+			
 	def findOurSnake(self, snakes):
 		for snake in snakes:
 			if snake["id"] == self.us:

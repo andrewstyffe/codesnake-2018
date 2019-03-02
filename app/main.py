@@ -43,6 +43,11 @@ def move():
 
 	board = BoardFrame(data)
 
+	if board.ourLoc is None:
+		return {
+			"move": "up"
+		}
+
 	if board.foods:
 		dest = closestFood(board)
 	else:
