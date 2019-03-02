@@ -84,8 +84,6 @@ def move():
 		move = altMove(board, move, dest)
 		whichMove = "alt"
 		print("alt")
-	
-	print("Turn: " + str(board.turn) + " move: " + whichMove)
 
 	# Catch errors and display in taunt to debug.
 	if move == "no_safe":

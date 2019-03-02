@@ -120,8 +120,8 @@ def projectSafe(board, dir):
 				break
 			else:
 				board.projections.append(dest)
-	print(dir)
-	print(board.projections)
+	#print(dir)
+	#print(board.projections)
 
 # Returns an ideal altrenate move if the attempted move was not ideal.
 # If there are no ideal moves, finds the best safe move.
