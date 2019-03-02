@@ -62,7 +62,7 @@ def move():
 		spaceMove = avoidSmallSpace(board)
 
 		# Check if we are putting ourselves in a hole with less moves than our length, and that coneMove is safe
-		if (spaceMove[1][1] < board.ourSnake['length'] or not safe(board, coneMove)):
+		if (spaceMove[1][1] < board.ourSnake['length']*6 or not safe(board, coneMove)):
 			move = spaceMove[0][0]
 			whichMove = "space"
 		else:

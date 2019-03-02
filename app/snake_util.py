@@ -79,6 +79,50 @@ def safe(board, move):
 	else:
 		return True
 
+def projectSafe(board, dir):
+	board.projections = []
+	for snake in board.snakes:
+		if snake['id'] == board.ourSnake['id']:
+			continue
+		
+		dist = board.height
+		for i in range(dist):
+			dest = snake['coords'][0].copy()
+			dest[1] = dest[1] - (i + 1)
+			if not basic_safe(board,dest):
+				break
+			else:
+				board.projections.append(dest)
+
+		dist = board.height
+		for i in range(dist):
+			dest = snake['coords'][0].copy()
+			dest[1] = dest[1] + (i + 1)
+			if not basic_safe(board,dest):
+				break
+			else:
+				board.projections.append(dest)
+
+		dist = board.width
+		for i in range(dist):
+			dest = snake['coords'][0].copy()
+			dest[0] = dest[0] + (i + 1)
+			if not basic_safe(board,dest):
+				break
+			else:
+				board.projections.append(dest)
+
+		dist = board.width
+		for i in range(dist):
+			dest = snake['coords'][0].copy()
+			dest[0] = dest[0] - (i + 1)
+			if not basic_safe(board,dest):
+				break
+			else:
+				board.projections.append(dest)
+	print(dir)
+	print(board.projections)
+
 # Returns an ideal altrenate move if the attempted move was not ideal.
 # If there are no ideal moves, finds the best safe move.
 # Will try moves in random directions to reduce predictabillity.
@@ -128,7 +172,7 @@ def altMove(board, attemptedMove, dest):
 
 	# If we get here, there are no safe moves. Check if there's at least a potential head-on-head collision we can take
 	for direction in priority:
-		if headOnCollision(getDest(direction)):
+		if headOnCollision(board, getDest(board, direction)):
 			return direction
 
 	return "no_safe"
@@ -191,7 +235,7 @@ def headOnCollision(board, dest):
 		diffY = abs(head[1] - dest[1])
 		length = len(snake['coords'])
 
-		if (diffX + diffY <= 2 ) and (length >= len(board.ourSnake['coords'])):
+		if (diffX + diffY <= 1 ) and (length >= len(board.ourSnake['coords'])):
 			return True
 
 	return False
@@ -290,11 +334,6 @@ def shortestPathLength(src, dest):
 	distY = dest[1] - src[1]
 	length = abs(distX) + abs(distY)
 	return length
-
-
-def shortestPath(src, dest):
-	distX = dest[0] - src[0]
-	distY = dest[1] - src[1]
 
 
 def weightedConeMove(board, considerFood):
@@ -446,6 +485,7 @@ def avoidSmallSpace(board):
 	
 	for move in moves:
 		if move[0] == "left":
+			projectSafe(board, "left")
 			# Get list of all available vertical moves
 			thresh = build_thresh(board, "vertical", move[1])
 			# Get a safe move to make if we follow thresh
@@ -464,6 +504,7 @@ def avoidSmallSpace(board):
 			temp.append(["left", areaLeft])
 
 		elif move[0] == "right":
+			projectSafe(board, "right")
 			thresh = build_thresh(board, "vertical", move[1]) 
 			inArea = findPointOutsideThresh(board, thresh, move[0])
 			if inArea:
@@ -476,6 +517,7 @@ def avoidSmallSpace(board):
 			temp.append(["right", areaRight])
 
 		elif move[0] == "up":
+			projectSafe(board, "up")
 			thresh = build_thresh(board, "horizontal", move[1])
 			inArea = findPointOutsideThresh(board, thresh, move[0])
 			if inArea:
@@ -488,6 +530,7 @@ def avoidSmallSpace(board):
 			temp.append(["up", areaUp])
 
 		elif move[0] == "down":
+			projectSafe(board, "down")
 			thresh = build_thresh(board, "horizontal", move[1])
 			inArea = findPointOutsideThresh(board, thresh, move[0])
 			if inArea:
@@ -541,7 +584,7 @@ def recCalcArea(board, thresh, area, move):
 			 [move[0], move[1] + 1]]
 
 	for newMove in moves:
-		if safe(board, newMove) and (newMove not in area) and (newMove not in thresh):
+		if safe(board, newMove) and (newMove not in area) and (newMove not in thresh) and (newMove not in board.projections):
 			area.append(newMove)
 			recCalcArea(board, thresh, area, newMove)  
 	
