@@ -188,7 +188,7 @@ def headOnCollision(board, dest):
 		diffY = abs(head[1] - dest[1])
 		length = len(snake['coords'])
 
-		if (diffX + diffY == 1 ) and (length >= len(board.ourSnake['coords'])):
+		if (diffX + diffY <= 2 ) and (length >= len(board.ourSnake['coords'])):
 			return True
 
 	return False
